@@ -2,8 +2,11 @@ import processing.net.*;
 
 Server s;
 Client c;
+String input;
+int[] data;
 
 int maxPlayers = 2;
+int playerNum = 0;
 ArrayList<PVector> positions = new ArrayList<PVector>();
 ArrayList<PVector> sizes = new ArrayList<PVector>();
 ArrayList<Integer> speeds = new ArrayList<Integer>();
@@ -53,8 +56,14 @@ void keyPressed(){
 
 void draw() {
   background(0);
-  
-  for (int i = 0; i < positions.size(); i++) {
-    players.get(i).player();
+  c = s.available();
+  if (c != null) {
+    input = c.readString();
+    input = input.substring(input, input.indexOf("\n"));
+    data = int(split(input, ' '));
+    
+    for (int i = 0; i < positions.size(); i++) {
+      players.get(i).player();
+    }
   }
 }
