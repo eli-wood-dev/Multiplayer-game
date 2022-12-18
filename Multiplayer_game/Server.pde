@@ -1,11 +1,11 @@
-public class Client {
-  
+public class Server {
+  Server s;
   Client c;
   String input;
   int[] data;
   
   int maxPlayers = 2;
-  int playerNum;
+  int playerNum = 0;
   ArrayList<PVector> positions = new ArrayList<PVector>();
   ArrayList<PVector> sizes = new ArrayList<PVector>();
   ArrayList<Integer> speeds = new ArrayList<Integer>();
@@ -17,7 +17,7 @@ public class Client {
   };
   
   void setup () {
-    c = new Client(this, "127.0.0.1", 12345);
+    s = new Server(this, 12345); 
     
     for (int i = 0; i < maxPlayers; i++) {
       positions.add(i, new PVector(500 + i*100, 500));
@@ -54,10 +54,10 @@ public class Client {
   
   void draw() {
     background(0);
-    
-    if (c.available() > 0) {
-      input = c.radString();
-      input = input.substring(0, input.indexOf("\n"));
+    c = s.available();
+    if (c != null) {
+      input = c.readString();
+      input = input.substring(input, input.indexOf("\n"));
       data = int(split(input, ' '));
       
       for (int i = 0; i < positions.size(); i++) {
