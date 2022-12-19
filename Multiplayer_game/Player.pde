@@ -21,8 +21,8 @@ public class Player {
   }
   
   void player() {
-    
-    
+    pos.x = constrain(pos.x, 0, width);
+    pos.y = constrain(pos.y, 0, height);
     
     fill(colour);
     ellipse(pos.x, pos.y, siz.x, siz.y);
