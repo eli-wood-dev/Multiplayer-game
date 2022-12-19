@@ -3,21 +3,21 @@ public class Player {
   PVector siz;
   color colour;
   int speed;
-  int playerNum;
+  int id;
   
-  public Player (PVector pos, PVector siz, int speed, int playerNum) {
+  public Player (PVector pos, PVector siz, int speed, int id) {
     this.pos = pos.copy();
     this.siz = siz.copy();
     this.speed = speed;
-    this.playerNum = playerNum;
+    this.id = id;
   }
   
-  public Player (PVector pos, PVector siz, int speed, color colour, int playerNum) {
+  public Player (PVector pos, PVector siz, int speed, color colour, int id) {
     this.pos = pos.copy();
     this.siz = siz.copy();
     this.colour = colour;
     this.speed = speed;
-    this.playerNum = playerNum;
+    this.id = id;
   }
   
   void player() {
@@ -37,6 +37,10 @@ public class Player {
   }
   
   int id() {
-    return playerNum;
+    return id;
+  }
+  
+  PVector pos() {
+    return pos;
   }
 }

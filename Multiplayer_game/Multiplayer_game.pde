@@ -1,4 +1,5 @@
 import processing.net.*;
+int nextId = 1;
 
 void setup () {
   fullScreen();
