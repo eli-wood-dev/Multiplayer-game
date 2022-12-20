@@ -26,21 +26,3 @@ void draw() {
 void startMenu() {
   
 }
-
-void move(int id){
-      PVector dir = new PVector(0, 0);
-      if (key == 'w' || key == 'W') {
-        dir.y -= players.get(id).speed();
-      }
-      if (key == 's' || key == 'S') {
-        dir.y += players.get(id).speed();
-      }
-      if (key == 'a' || key == 'A') {
-        dir.x -= players.get(id).speed();
-      }
-      if (key == 'd' || key == 'D') {
-        dir.x += players.get(id).speed();
-      }
-      
-      players.get(id).move(dir);
-  }
