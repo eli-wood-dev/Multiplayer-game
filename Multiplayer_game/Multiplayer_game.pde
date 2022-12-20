@@ -24,5 +24,14 @@ void draw() {
 }
 
 void startMenu() {
-  
+  fill(255, 0, 0);
+  rect(100, 100, 100, 100);
+  fill(0, 0, 255);
+  rect(300, 100, 100, 100);
+  if(mousePressed && mouseX >= 100 && mouseX <= 200 && mouseY >= 100 && mouseY <= 200) {
+    playing = true;
+  }
+  if(mousePressed && mouseX >= 300 && mouseX <= 400 && mouseY >= 100 && mouseY <= 200) {
+    playing = true;
+  }
 }
