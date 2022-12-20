@@ -1,6 +1,6 @@
-public class Server {
+public class GameServer {
   
-  public Server (int port) {
+  public GameServer (int port) {
     this.port = port;
   }
   

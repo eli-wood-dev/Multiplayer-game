@@ -1,6 +1,6 @@
-public class Client {
+public class GameClient {
   
-  public Client (int port, String ip, int id) {
+  public GameClient (int port, String ip, int id) {
     this.port = port;
     this.ip = ip;
     this.id = id;
