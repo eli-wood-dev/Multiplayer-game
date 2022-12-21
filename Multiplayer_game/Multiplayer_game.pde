@@ -65,7 +65,7 @@ void draw() {
       
       players.get(id).move(dir);
       
-      s.write(players.get(id).pos.x + "" + players.get(id).pos.y + " " + players.get(id).siz.x + " " + players.get(id).siz.y + " " + players.get(id).speed + " " + players.get(id).id + " ");
+      s.write(info(players.get(id)));
       
       
       c = s.available();
@@ -87,6 +87,8 @@ void draw() {
       }
       
       players.get(id).move(dir);
+      
+      c.write(info(players.get(id)));
       
       if (c.available() > 0) {
         input = c.readString();
@@ -142,4 +144,10 @@ void speedCap(PVector dir, int speed) {
   if(dir.y < -speed) {
     dir.y = -speed;
   }
+}
+
+String info (Player p) {
+  String info = p.pos.x + "" + p.pos.y + " " + p.siz.x + " " + p.siz.y + " " + p.speed + " " + p.id;
+  
+  return info;
 }
