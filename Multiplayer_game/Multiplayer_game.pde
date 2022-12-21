@@ -8,7 +8,7 @@ int id;
 
 ArrayList<Player> players = new ArrayList<Player>();
 
-PVector startingPos, siz;
+PVector startingPos, siz, dir;
 
 int speed = 5;
 
@@ -23,10 +23,27 @@ void setup () {
   fullScreen();
   startingPos = new PVector(100, 100);
   siz = new PVector(50, 50);
+  dir = new PVector(0, 0);
 }
   
 void keyPressed(){
-  
+  if (key == 'w' || key == 'W') {
+    dir.y -= players.get(id).speed();
+  }
+  if (key == 's' || key == 'S') {
+    dir.y += players.get(id).speed();
+  }
+  if (key == 'a' || key == 'A') {
+    dir.x -= players.get(id).speed();
+  }
+  if (key == 'd' || key == 'D') {
+    dir.x += players.get(id).speed();
+  }
+  speedCap(dir, players.get(id).speed());
+}
+
+void keyReleased() {
+  dir.set(0, 0);
 }
 
 void draw() {
@@ -41,7 +58,9 @@ void draw() {
         started = true;
       }
       
+      players.get(id).move(dir);
       
+      s.write(players.get(id).pos.x + "" + players.get(id).pos.y + " " + players.get(id).siz.x + " " + players.get(id).siz.y + " " + players.get(id).speed + " " + players.get(id).id + " ");
       
       
       c = s.available();
@@ -56,9 +75,13 @@ void draw() {
       }
       
     } else {
-      id = 1;
-      c = startClient(12345, "127.0.0.1");
+      if (!started) {
+        id = 1;
+        c = startClient(12345, "127.0.0.1");
+        started = true;
+      }
       
+      players.get(id).move(dir);
       
       if (c.available() > 0) {
         input = c.readString();
@@ -71,24 +94,6 @@ void draw() {
       }
     }
   }
-}
-
-void move(int id){
-  PVector dir = new PVector(0, 0);
-  if (key == 'w' || key == 'W') {
-    dir.y -= players.get(id).speed();
-  }
-  if (key == 's' || key == 'S') {
-    dir.y += players.get(id).speed();
-  }
-  if (key == 'a' || key == 'A') {
-    dir.x -= players.get(id).speed();
-  }
-  if (key == 'd' || key == 'D') {
-    dir.x += players.get(id).speed();
-  }
-  
-  players.get(id).move(dir);
 }
 
 void startMenu() {
@@ -117,4 +122,19 @@ Client startClient (int port, String ip) {
   players.add(new Player(startingPos, siz, speed, colour, id));
   
   return new Client(this, ip, port);
+}
+
+void speedCap(PVector dir, int speed) {
+  if(dir.x > speed) {
+    dir.x = speed;
+  }
+  if(dir.x < -speed) {
+    dir.x = -speed;
+  }
+  if(dir.y > speed) {
+    dir.y = speed;
+  }
+  if(dir.y < -speed) {
+    dir.y = -speed;
+  }
 }

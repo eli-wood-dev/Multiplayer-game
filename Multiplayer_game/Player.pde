@@ -43,4 +43,8 @@ public class Player {
   PVector pos() {
     return pos;
   }
+  
+  PVector size() {
+    return siz;
+  }
 }
