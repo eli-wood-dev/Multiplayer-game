@@ -43,7 +43,12 @@ void keyPressed(){
 }
 
 void keyReleased() {
-  dir.set(0, 0);
+  if (key == 'w' || key == 'W' || key == 's' || key == 'S') {
+    dir.y = 0;
+  }
+  if (key == 'a' || key == 'A' || key == 'd' || key == 'D') {
+    dir.x = 0;
+  }
 }
 
 void draw() {
