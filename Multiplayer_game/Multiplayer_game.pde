@@ -90,13 +90,9 @@ void draw() {
     } else {
       if (!started) {
         id = 1;
-        c = startClient(12345, "127.0.0.1");
+        c = startClient(12345, "66.207.116.198");
         started = true;
       }
-      
-      players.get(id).move(dir);
-      
-      c.write(info(players.get(id)));
       
       if (c.available() > 0) {
         input = c.readString();
@@ -107,6 +103,10 @@ void draw() {
           otherPlayer = true;
         }
       }
+      
+      players.get(id).move(dir);
+      
+      c.write(info(players.get(id)));
       
       for (int i = 0; i < players.size(); i++) {
         players.get(i).player();
@@ -147,10 +147,9 @@ Client startClient (int port, String ip) {
 }
 
 void addPlayer(int[] data) {
-  PVector pos = new PVector(data[0], data[1]);
   PVector siz = new PVector(data[2], data[3]);
   color colour = color(0, 0, 255);
-  players.add(new Player(pos, siz, data[4], colour, data[5]));
+  players.add(new Player(startingPos, siz, data[4], colour, data[5]));
 }
 
 void setPosition(int[] data, Player p) {
