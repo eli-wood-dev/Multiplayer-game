@@ -3,6 +3,7 @@ import processing.net.*;
 boolean playing = false;
 boolean server = false;
 boolean started = false;
+boolean otherPlayer = false;
 
 int id;
 
@@ -73,10 +74,17 @@ void draw() {
         input = c.readString();
         input = input.substring(0, input.indexOf("\n"));
         data = int(split(input, ' '));
+        if (!otherPlayer) {
+          addPlayer(data);
+          otherPlayer = true;
+        }
       }
       
       for (int i = 0; i < players.size(); i++) {
         players.get(i).player();
+        if (players.get(i).id != id) {
+          setPosition(data, players.get(i));
+        }
       }
       
     } else {
@@ -94,10 +102,17 @@ void draw() {
         input = c.readString();
         input = input.substring(0, input.indexOf("\n"));
         data = int(split(input, ' '));
+        if (!otherPlayer) {
+          addPlayer(data);
+          otherPlayer = true;
+        }
       }
       
       for (int i = 0; i < players.size(); i++) {
         players.get(i).player();
+        if (players.get(i).id != id) {
+          setPosition(data, players.get(i));
+        }
       }
     }
   }
@@ -129,6 +144,18 @@ Client startClient (int port, String ip) {
   players.add(new Player(startingPos, siz, speed, colour, id));
   
   return new Client(this, ip, port);
+}
+
+void addPlayer(int[] data) {
+  PVector pos = new PVector(data[0], data[1]);
+  PVector siz = new PVector(data[2], data[3]);
+  color colour = color(0, 0, 255);
+  players.add(new Player(pos, siz, data[4], colour, data[5]));
+}
+
+void setPosition(int[] data, Player p) {
+  p.pos.x = data[0];
+  p.pos.y = data[1];
 }
 
 void speedCap(PVector dir, int speed) {
