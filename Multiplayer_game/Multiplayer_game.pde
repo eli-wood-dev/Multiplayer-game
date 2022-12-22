@@ -18,10 +18,11 @@ int speed = 5;
 Server s;
 Client c;
 String input;
-int[] data;
+String[] data;
 
 void setup () {
   fullScreen();
+  noStroke();
   startingPos = new PVector(100, 100);
   siz = new PVector(50, 50);
   dir = new PVector(0, 0);
@@ -29,18 +30,18 @@ void setup () {
   
 void keyPressed(){
   if (key == 'w' || key == 'W') {
-    dir.y -= players.get(id).speed();
+    dir.y -= players.get(0).speed();
   }
   if (key == 's' || key == 'S') {
-    dir.y += players.get(id).speed();
+    dir.y += players.get(0).speed();
   }
   if (key == 'a' || key == 'A') {
-    dir.x -= players.get(id).speed();
+    dir.x -= players.get(0).speed();
   }
   if (key == 'd' || key == 'D') {
-    dir.x += players.get(id).speed();
+    dir.x += players.get(0).speed();
   }
-  speedCap(dir, players.get(id).speed());
+  speedCap(dir, players.get(0).speed());
 }
 
 void keyReleased() {
@@ -53,7 +54,7 @@ void keyReleased() {
 }
 
 void draw() {
-  background(0);
+  background(100);
   if (!playing) {
     startMenu();
   } else {
@@ -64,16 +65,16 @@ void draw() {
         started = true;
       }
       
-      players.get(id).move(dir);
+      players.get(0).move(dir);
       
-      s.write(info(players.get(id)));
+      s.write(info(players.get(0)));
       
       
       c = s.available();
       if (c != null) {
         input = c.readString();
         input = input.substring(0, input.indexOf("\n"));
-        data = int(split(input, ' '));
+        data = split(input, ' ');
         if (!otherPlayer) {
           addPlayer(data);
           otherPlayer = true;
@@ -90,23 +91,25 @@ void draw() {
     } else {
       if (!started) {
         id = 1;
-        c = startClient(12345, "66.207.116.198");
+        c = startClient(12345, "127.0.0.1");
         started = true;
       }
       
+      players.get(0).move(dir);
+        
+      c.write(info(players.get(0)));
+      
       if (c.available() > 0) {
+        
         input = c.readString();
         input = input.substring(0, input.indexOf("\n"));
-        data = int(split(input, ' '));
+        data = split(input, ' ');
+        println(data[0]);
         if (!otherPlayer) {
           addPlayer(data);
           otherPlayer = true;
         }
       }
-      
-      players.get(id).move(dir);
-      
-      c.write(info(players.get(id)));
       
       for (int i = 0; i < players.size(); i++) {
         players.get(i).player();
@@ -146,15 +149,15 @@ Client startClient (int port, String ip) {
   return new Client(this, ip, port);
 }
 
-void addPlayer(int[] data) {
-  PVector siz = new PVector(data[2], data[3]);
+void addPlayer(String[] data) {
+  PVector siz = new PVector(Float.valueOf(data[2]), Float.valueOf(data[3]));
   color colour = color(0, 0, 255);
-  players.add(new Player(startingPos, siz, data[4], colour, data[5]));
+  players.add(new Player(startingPos, siz, Integer.valueOf(data[4]), colour, Integer.valueOf(data[5])));
 }
 
-void setPosition(int[] data, Player p) {
-  p.pos.x = data[0];
-  p.pos.y = data[1];
+void setPosition(String[] data, Player p) {
+  p.pos.x = Float.valueOf(data[0]);
+  p.pos.y = Float.valueOf(data[1]);
 }
 
 void speedCap(PVector dir, int speed) {
@@ -173,7 +176,7 @@ void speedCap(PVector dir, int speed) {
 }
 
 String info (Player p) {
-  String info = p.pos.x + "" + p.pos.y + " " + p.siz.x + " " + p.siz.y + " " + p.speed + " " + p.id;
+  String info = p.pos.x + " " + p.pos.y + " " + p.siz.x + " " + p.siz.y + " " + p.speed + " " + p.id + "\n";
   
   return info;
 }
